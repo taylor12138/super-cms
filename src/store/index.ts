@@ -2,6 +2,7 @@ import { createStore, Store, useStore } from 'vuex'
 
 import { IRootState, IStoreType } from './types'
 import login from './login'
+import system from './system'
 const store = createStore<IRootState>({
   state: () => {
     return {
@@ -12,7 +13,8 @@ const store = createStore<IRootState>({
   mutations: {},
   actions: {},
   modules: {
-    login
+    login,
+    system
   }
 })
 // 做store的初始化

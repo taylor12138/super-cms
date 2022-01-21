@@ -5,6 +5,7 @@ import { IUser } from '@/network/login/type'
 import { ILoginState } from './types'
 import { IRootState } from '../types'
 import LocalCache from '@/untils/cache'
+import { mapMenutoRoutes } from '@/untils/menu-route'
 import router from '@/router'
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -24,6 +25,11 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenu(state, userMenu: any) {
       state.userMenu = userMenu
+      //完成 usermenu -> 路由表的映射
+      const routes = mapMenutoRoutes(userMenu)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {

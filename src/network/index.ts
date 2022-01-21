@@ -9,7 +9,6 @@ const myRequest = new MYRequest({
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`
       }
-      console.log('请求成功拦截', config)
       return config
     },
     requstInterceptorCatch: (err) => {

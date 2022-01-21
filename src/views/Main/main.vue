@@ -1,16 +1,17 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside :width="isFold ? '210px' : '60px'">
-        <nav-menu />
+      <el-aside :width="!isFold ? '210px' : '60px'">
+        <nav-menu :isFold="isFold" />
       </el-aside>
       <el-container class="page">
         <el-header class="page-header">
           <nav-header @changeFoldStatus="handleFold" />
         </el-header>
-        <el-main class="page-content"
-          >main
-          <div class="page-info"></div>
+        <el-main class="page-content">
+          <div class="page-info">
+            <router-view></router-view>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -24,7 +25,7 @@ import { NavHeader } from '@/components/nav-header'
 
 export default defineComponent({
   setup() {
-    const isFold = ref()
+    const isFold = ref(false)
     const handleFold = (isFoldValue: boolean) => {
       isFold.value = isFoldValue
     }

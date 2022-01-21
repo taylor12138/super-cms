@@ -1,15 +1,29 @@
 <template>
   <div class="nav-header">
     <el-icon @click="handleFoldClick">
-      <d-arrow-left v-if="isFold" />
-      <d-arrow-right v-else />
+      <d-arrow-right v-if="isFold" />
+      <d-arrow-left v-else />
     </el-icon>
+    <div class="content">
+      <div>
+        <my-bread-crumb :breadcrumbs="breadcrumbs" />
+      </div>
+      <div>
+        <user-info />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router'
+
+import { myBreadCrumb } from '@/components/breadcrumb'
+import { useMyStore } from '@/store'
+import UserInfo from './user-info.vue'
+import MapPathBread from '@/untils/path-bread'
 
 export default defineComponent({
   emits: ['changeFoldStatus'],
@@ -19,14 +33,26 @@ export default defineComponent({
       isFold.value = !isFold.value
       emit('changeFoldStatus', isFold.value)
     }
+
+    // 面包屑数据
+    const route = useRoute()
+    const store = useMyStore()
+    const Menu = store.state.login.userMenu
+    const breadcrumbs = computed(() => {
+      return MapPathBread(route.path, Menu)
+    })
+
     return {
       isFold,
-      handleFoldClick
+      handleFoldClick,
+      breadcrumbs
     }
   },
   components: {
     DArrowLeft,
-    DArrowRight
+    DArrowRight,
+    UserInfo,
+    myBreadCrumb
   }
 })
 </script>
@@ -34,11 +60,18 @@ export default defineComponent({
 <style scoped lang="less">
 .nav-header {
   display: flex;
+  width: 100%;
   align-items: center;
   .el-icon {
-    width: 100%;
     font-size: 25px;
     cursor: pointer;
+  }
+  .content {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
   }
 }
 </style>

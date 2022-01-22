@@ -6,30 +6,14 @@ export const FormData: IForm = {
     {
       field: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '角色名',
+      placeholder: '请输入角色名'
     },
     {
-      field: 'name2',
+      field: 'intro',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
-    },
-    {
-      field: 'name3',
-      type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
-    },
-    {
-      field: 'enable',
-      type: 'select',
-      label: '用户状态',
-      placeholder: '请选择选项',
-      selectorOptions: [
-        { title: '启用', value: 1 },
-        { title: '禁用', value: 0 }
-      ]
+      label: '权限介绍',
+      placeholder: '请输入权限介绍'
     },
     {
       field: 'date',
@@ -45,20 +29,13 @@ export const FormData: IForm = {
 export const TableData: ITable = {
   // table的每列参数
   propList: [
-    { prop: 'name', label: '用户名', minWidth: '100', slotName: 'name' },
+    { prop: 'name', label: '角色名', minWidth: '100', slotName: 'name' },
     {
-      prop: 'realname',
-      label: '姓名',
+      prop: 'intro',
+      label: '权限介绍',
       minWidth: '100',
-      slotName: 'realname'
+      slotName: 'intro'
     },
-    {
-      prop: 'cellphone',
-      label: '手机号码',
-      minWidth: '100',
-      slotName: 'cellphone'
-    },
-    { prop: 'enable', label: '状态', minWidth: '100', slotName: 'enable' },
     {
       prop: 'createAt',
       label: '创建时间',
@@ -80,5 +57,5 @@ export const TableData: ITable = {
   // 是否展示选中列
   showSelectColomn: true,
   // 标题
-  title: '用户表格'
+  title: '权限表格'
 }

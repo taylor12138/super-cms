@@ -58,6 +58,7 @@ const loginModule: Module<ILoginState, IRootState> = {
     loginPhoneAction(context, payload) {
       console.log('执行了actions', context)
       console.log(payload)
+      alert('该功能暂未开放，敬请期待！')
     },
     loadLoginCache({ commit }) {
       const token = LocalCache.getCache('token')

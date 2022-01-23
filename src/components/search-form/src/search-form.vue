@@ -9,13 +9,15 @@
               <template v-if="item.type === 'input'">
                 <el-input
                   :placeholder="item.placeholder"
-                  v-model="FormField[item.field]"
+                  :model-value="modelValue[item.field]"
+                  @update:modelValue="inputHandle($event, item.field)"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
                   :placeholder="item.placeholder"
-                  v-model="FormField[item.field]"
+                  :model-value="modelValue[item.field]"
+                  @update:modelValue="inputHandle($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.selectorOptions"
@@ -31,7 +33,8 @@
                   range-separator="To"
                   style="width: 100%"
                   v-bind="item.timeOptions"
-                  v-model="FormField[item.field]"
+                  :model-value="modelValue[item.field]"
+                  @update:modelValue="inputHandle($event, item.field)"
                 >
                 </el-date-picker>
               </template>
@@ -45,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { IFormItem } from './types'
 
 export default defineComponent({
@@ -78,17 +81,21 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const FormField = ref({ ...props.modelValue })
-    watch(
-      FormField,
-      (newValue) => {
-        emit('update:modelValue', newValue)
-      },
-      {
-        deep: true
-      }
-    )
+    // watch(
+    //   FormField,
+    //   (newValue) => {
+    //     emit('update:modelValue', newValue)
+    //   },
+    //   {
+    //     deep: true
+    //   }
+    // )
+    const inputHandle = (value: any, field: string) => {
+      emit('update:modelValue', { ...props.modelValue, [field]: value })
+    }
     return {
-      FormField
+      FormField,
+      inputHandle
     }
   }
 })

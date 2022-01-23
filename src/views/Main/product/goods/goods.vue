@@ -1,16 +1,26 @@
 <template>
   <div class="goods">
-    <h2>goods</h2>
+    <complete-table :TableData="TableData" pageName="goods"></complete-table>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import CompleteTable from '@/components/complete-table'
+import * as config from './config'
+
 export default defineComponent({
   name: 'goods',
   setup() {
-    return {}
+    const { TableData } = config
+
+    return {
+      TableData
+    }
+  },
+  components: {
+    CompleteTable
   }
 })
 </script>

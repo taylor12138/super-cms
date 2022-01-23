@@ -6,8 +6,10 @@
       </template>
       <template #footer>
         <div class="footer">
-          <el-button>Reset</el-button>
-          <el-button type="primary">Search</el-button>
+          <el-button @click="ResetHandleCilck">Reset</el-button>
+          <el-button type="primary" @click="searchHandleClick"
+            >Search</el-button
+          >
         </div>
       </template>
     </search-form>
@@ -26,7 +28,8 @@ export default defineComponent({
       require: true
     }
   },
-  setup(props) {
+  emit: ['ResetHandleCilck', 'searchHandleClick'],
+  setup(props, { emit }) {
     const originField: any = {}
     // 动态获取FormField属性名
     const arr = props.FormItems || []
@@ -37,8 +40,23 @@ export default defineComponent({
     // 表单field数据, 这里用ref是因为reactive在v-model使用双向绑定的时候有可能会有些问题
     const FormField = ref(originField)
 
+    // 重置函数
+    const ResetHandleCilck = () => {
+      for (const key in FormField.value) {
+        FormField.value[key] = originField[key]
+      }
+      // FormField.value = originField
+      emit('ResetHandleCilck')
+    }
+    //搜索函数
+    const searchHandleClick = () => {
+      emit('searchHandleClick', FormField.value)
+    }
+
     return {
-      FormField
+      FormField,
+      ResetHandleCilck,
+      searchHandleClick
     }
   },
   components: {

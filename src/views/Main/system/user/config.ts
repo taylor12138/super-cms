@@ -10,16 +10,16 @@ export const FormData: IForm = {
       placeholder: '请输入用户名'
     },
     {
-      field: 'name2',
+      field: 'realname',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '真实姓名',
+      placeholder: '请输入真实姓名'
     },
     {
-      field: 'name3',
+      field: 'cellphone',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '电话号码',
+      placeholder: '请输入电话号码'
     },
     {
       field: 'enable',
@@ -32,7 +32,7 @@ export const FormData: IForm = {
       ]
     },
     {
-      field: 'date',
+      field: 'createAt',
       type: 'date-picker',
       label: '日期',
       timeOptions: {

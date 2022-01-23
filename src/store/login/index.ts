@@ -6,6 +6,7 @@ import { ILoginState } from './types'
 import { IRootState } from '../types'
 import LocalCache from '@/untils/cache'
 import { mapMenutoRoutes } from '@/untils/menu-route'
+import mapMenuPermission from '@/untils/menu-permission'
 import router from '@/router'
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -13,7 +14,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenu: []
+      userMenu: [],
+      permissions: []
     }
   },
   mutations: {
@@ -30,6 +32,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
+      const permissions = mapMenuPermission(userMenu)
+      state.permissions = permissions
     }
   },
   actions: {

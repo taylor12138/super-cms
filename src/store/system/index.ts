@@ -4,7 +4,9 @@ import { ISystemState } from './types'
 import { getPageListData } from '@/network/system'
 const urlMap = new Map([
   ['users', '/users/list'],
-  ['role', '/role/list']
+  ['role', '/role/list'],
+  ['goods', '/goods/list'],
+  ['menu', '/menu/list']
 ])
 const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
@@ -13,19 +15,43 @@ const systemModule: Module<ISystemState, IRootState> = {
       userList: [],
       userCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   getters: {
     getList(state) {
-      return (pageName: string) => {
+      return (pageName: string): any[] => {
         switch (pageName) {
           case 'users':
             return state.userList
           case 'role':
             return state.roleList
+          case 'goods':
+            return state.goodsList
+          case 'menu':
+            return state.menuList
           default:
-            return ''
+            return []
+        }
+      }
+    },
+    getCount(state) {
+      return (pageName: string): number => {
+        switch (pageName) {
+          case 'users':
+            return state.userCount
+          case 'role':
+            return state.roleCount
+          case 'goods':
+            return state.goodsCount
+          case 'menu':
+            return state.menuCount
+          default:
+            return 0
         }
       }
     }
@@ -42,6 +68,18 @@ const systemModule: Module<ISystemState, IRootState> = {
     },
     roleChangeCount(state, count: number) {
       state.roleCount = count
+    },
+    goodsChangeList(state, list: any[]) {
+      state.goodsList = list
+    },
+    goodsChangeCount(state, count: number) {
+      state.goodsCount = count
+    },
+    menuChangeList(state, list: any[]) {
+      state.menuList = list
+    },
+    menuChangeCount(state, count: number) {
+      state.menuCount = count
     }
   },
   actions: {
@@ -52,7 +90,8 @@ const systemModule: Module<ISystemState, IRootState> = {
         console.log('url地址有误')
       }
       const pageRes = await getPageListData(pageURL, payload.queryOtions)
-      const { list, totalCount } = pageRes.data
+      const { list, totalCount = 0 } = pageRes.data
+
       commit(`${payload.pageName}ChangeList`, list)
       commit(`${payload.pageName}ChangeCount`, totalCount)
     }

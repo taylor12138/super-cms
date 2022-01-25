@@ -8,7 +8,7 @@
     >
       <!-- header插槽 -->
       <template #headerHandler v-if="isCreate">
-        <el-button type="primary">新建用户</el-button>
+        <el-button type="primary" @click="newBtnClick">新建用户</el-button>
       </template>
       <!-- 列中的插槽 -->
       <!-- 1.状态插槽 -->
@@ -45,11 +45,19 @@
         <span>{{ '￥' + scope.row.newPrice }}</span>
       </template>
       <!-- 5.编辑插槽 -->
-      <template #operation>
-        <el-button size="small" v-if="isUpdate">
+      <template #operation="scope">
+        <el-button
+          size="small"
+          v-if="isUpdate"
+          @click="editBtnClick(scope.row)"
+        >
           <el-icon> <edit /></el-icon>编辑
         </el-button>
-        <el-button size="small" v-if="isDelete">
+        <el-button
+          size="small"
+          v-if="isDelete"
+          @click="handleDeleteClick(scope.row)"
+        >
           <el-icon> <delete /> </el-icon>删除
         </el-button>
       </template>
@@ -76,7 +84,8 @@ export default defineComponent({
       require: true
     }
   },
-  setup(props) {
+  emit: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     // 使用vuex方法
     const store = useStore()
     //获取权限
@@ -101,7 +110,7 @@ export default defineComponent({
     const CurrentPageCallback = (currentPage: number) => {
       console.log(currentPage)
       getData({
-        offset: currentPage
+        offset: (currentPage - 1) * 10
       })
       console.log(currentPage)
     }
@@ -113,6 +122,19 @@ export default defineComponent({
     const pageCount = computed(() =>
       store.getters['system/getCount'](props.pageName)
     )
+    // 删除 | 编辑操作
+    const handleDeleteClick = (item: any) => {
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+    const newBtnClick = () => {
+      emit('newBtnClick')
+    }
+    const editBtnClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
     return {
       pageList,
       pageCount,
@@ -120,7 +142,10 @@ export default defineComponent({
       CurrentPageCallback,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      handleDeleteClick,
+      newBtnClick,
+      editBtnClick
     }
   },
   components: {

@@ -6,6 +6,7 @@ interface IFormItem {
   placeholder?: any
   selectorOptions?: any[]
   timeOptions?: any
+  isHidden?: boolean
 }
 interface IForm {
   FormItems: IFormItem[]

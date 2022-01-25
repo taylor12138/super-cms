@@ -5,7 +5,12 @@
       <el-row justify="space-around">
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="layout" class="col">
-            <el-form-item :label="item.label">
+            <el-form-item
+              :label="item.label"
+              :style="itemStyle"
+              :rules="item.rules"
+              v-if="!item.isHidden"
+            >
               <template v-if="item.type === 'input'">
                 <el-input
                   :placeholder="item.placeholder"
@@ -75,6 +80,10 @@ export default defineComponent({
       })
     },
     modelValue: {
+      type: Object,
+      default: () => ({})
+    },
+    itemStyle: {
       type: Object,
       default: () => ({})
     }

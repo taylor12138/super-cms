@@ -69,4 +69,11 @@ export default class MYRequest {
   post<T>(config: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
+  delete<T = any>(config: AxiosRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' })
+  }
+
+  patch<T = any>(config: AxiosRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
+  }
 }

@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { IRootState } from '../types'
 import { ISystemState } from './types'
-import { getPageListData } from '@/network/system'
+import { getPageListData, deletePAgeListData } from '@/network/system'
 const urlMap = new Map([
   ['users', '/users/list'],
   ['role', '/role/list'],
@@ -94,6 +94,20 @@ const systemModule: Module<ISystemState, IRootState> = {
 
       commit(`${payload.pageName}ChangeList`, list)
       commit(`${payload.pageName}ChangeCount`, totalCount)
+    },
+    async deletePageDataAction({ dispatch }, payload: any) {
+      const { id, pageName } = payload
+      const pageUrl = `${pageName}/${id}`
+      // 根据id删除对应的用户信息
+      await deletePAgeListData(pageUrl)
+      // 然后再重新获取最新的数据资源
+      dispatch('getPageDataAction', {
+        pageName,
+        queryOtions: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }

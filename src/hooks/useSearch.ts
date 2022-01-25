@@ -9,7 +9,6 @@ export default function useSearch() {
   }
   const searchCallback = (queryInfo: any) => {
     console.log(queryInfo)
-
     tableRef.value?.getData(queryInfo)
   }
   return {

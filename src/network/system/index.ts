@@ -11,3 +11,9 @@ export function getPageListData(url: string, queryOtions: any) {
     data: queryOtions
   })
 }
+// /users/id  删除资源
+export function deletePAgeListData(url: string) {
+  return myRequest.delete<IDataType>({
+    url
+  })
+}

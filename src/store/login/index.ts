@@ -37,12 +37,15 @@ const loginModule: Module<ILoginState, IRootState> = {
     }
   },
   actions: {
-    async loginAccountAction({ commit }, payload: IUser) {
+    async loginAccountAction({ commit, dispatch }, payload: IUser) {
       // 登陆验证
       const res = await accountRequest(payload)
       const { id, token } = res.data
       commit('changeToken', token)
       LocalCache.setCache('token', token)
+
+      //获取完整的部门、权限表
+      dispatch('getInitialData', null, { root: true })
 
       // 获取用户信息
       const res2 = await getUserRequest(id)
@@ -64,9 +67,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       console.log(payload)
       alert('该功能暂未开放，敬请期待！')
     },
-    loadLoginCache({ commit }) {
+    loadLoginCache({ commit, dispatch }) {
       const token = LocalCache.getCache('token')
-      if (token) commit('changeToken', token)
+      if (token) {
+        commit('changeToken', token)
+        dispatch('getInitialData', null, { root: true })
+      }
       const userInfo = LocalCache.getCache('userInfo')
       if (userInfo) commit('changeUserInfo', userInfo)
       const userMenu = LocalCache.getCache('userMenu')

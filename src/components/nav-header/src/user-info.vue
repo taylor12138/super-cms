@@ -10,7 +10,7 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item> 退出登录</el-dropdown-item>
+        <el-dropdown-item @click="handleExitClick"> 退出登录</el-dropdown-item>
         <el-dropdown-item divided>敬请期待</el-dropdown-item>
         <el-dropdown-item>敬请期待</el-dropdown-item>
         <el-dropdown-item>敬请期待</el-dropdown-item>
@@ -22,8 +22,10 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { ArrowDown } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
 import { useMyStore } from '@/store'
+import LocalCache from '@/untils/cache'
 
 export default defineComponent({
   components: {
@@ -32,8 +34,15 @@ export default defineComponent({
   setup() {
     const store = useMyStore()
     const name = computed(() => store.state.login.userInfo.name)
+
+    const router = useRouter()
+    const handleExitClick = () => {
+      LocalCache.removeCache('token')
+      router.push('/main')
+    }
     return {
-      name
+      name,
+      handleExitClick
     }
   }
 })

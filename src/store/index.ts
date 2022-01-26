@@ -7,7 +7,8 @@ import system from './system'
 
 enum rootAPI {
   departmentAPI = '/department/list', //请求完整部门数据API
-  roleAPI = '/role/list' //请求完整部门数据API
+  roleAPI = '/role/list', //请求完整部门数据API
+  menuAPI = '/menu/list' //请求完整菜单数据API
 }
 
 const store = createStore<IRootState>({
@@ -16,7 +17,8 @@ const store = createStore<IRootState>({
       name: 'allen',
       age: 18,
       entireDepartment: [],
-      entireRole: []
+      entireRole: [],
+      entireMenu: []
     }
   },
   mutations: {
@@ -25,6 +27,9 @@ const store = createStore<IRootState>({
     },
     changeEntireRole(state, list: any[]) {
       state.entireRole = list
+    },
+    changeEntireMenu(state, list: any[]) {
+      state.entireMenu = list
     }
   },
   actions: {
@@ -37,8 +42,10 @@ const store = createStore<IRootState>({
         offset: 0,
         size: 1000
       })
+      const menuData = await getPageListData(rootAPI.menuAPI, {})
       commit('changeEntireDepartment', departmentData.data.list)
       commit('changeEntireRole', roleData.data.list)
+      commit('changeEntireMenu', menuData.data.list)
     }
   },
   modules: {
@@ -49,7 +56,6 @@ const store = createStore<IRootState>({
 // 做store的初始化
 export function setupStore() {
   store.dispatch('login/loadLoginCache')
-  store.dispatch('getInitialData')
 }
 //负责导出store（coderwhy老师的特殊处理）
 export function useMyStore(): Store<IStoreType> {

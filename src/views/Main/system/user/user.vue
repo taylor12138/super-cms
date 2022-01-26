@@ -16,6 +16,7 @@
       :dialogConfig="dialogConfigRef"
       ref="dialogModuleRef"
       :editData="editData"
+      pageName="users"
     ></dialog-module>
   </div>
 </template>
@@ -85,8 +86,6 @@ export default defineComponent({
           value: item.id
         }))
       }
-      console.log(departmentItem, roleItem)
-
       return dialogConfig
     })
     return {

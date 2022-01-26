@@ -12,8 +12,22 @@ export function getPageListData(url: string, queryOtions: any) {
   })
 }
 // /users/id  删除资源
-export function deletePAgeListData(url: string) {
+export function deletePageListData(url: string) {
   return myRequest.delete<IDataType>({
     url
+  })
+}
+// /users/    新建资源
+export function createPageListData(url: string, queryInfo: any) {
+  return myRequest.post<IDataType>({
+    url,
+    data: queryInfo
+  })
+}
+// /users/    修改资源
+export function editPageListData(url: string, queryInfo: any) {
+  return myRequest.patch<IDataType>({
+    url,
+    data: queryInfo
   })
 }
